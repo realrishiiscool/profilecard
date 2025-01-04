@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labour Profiles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="container mt-5">
+        <a href="/register">Register</a>
+        <h1 class="mb-4">Labour Profiles</h1>
+        <div id="profile-cards" class="row"></div>
+    </div>
+    <script>
+        fetch('/api/profiles')
+            .then(response => response.json())
+            .then(profiles => {
+                const container = document.getElementById('profile-cards');
+                profiles.forEach(profile => {
+                    const card = `
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img src="data:image/jpeg;base64,${profile.photo}" class="card-img-top" alt="${profile.name}'s photo">
+                                <div class="card-body">
+                                    <h5 class="card-title">${profile.name}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            })
+            .catch(error => console.error('Error fetching profiles:', error));
+    </script>
+</body>
+</html>
